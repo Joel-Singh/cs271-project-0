@@ -20,29 +20,28 @@ using std::cout; // more specific than using namespace std -- fewer
 using std::endl;
 using std::string;
 
-// void test_append() {
-//   try {
-//     DoublyLinkedList<int> dll;
-//     dll.append(0);
-//     string dll_str = dll.to_string();
-//     if (dll_str != "0") {
-//       cout << "Incorrect append result. Expected 0 but got : " << dll_str
-//            << endl;
-//     }
-//
-//     dll.append(2);
-//     dll.append(-1);
-//     dll_str = dll.to_string();
-//     if (dll_str != "0 2 -1") {
-//       cout << "Incorrect append result. Expected 0 2 -1 but got : " <<
-//       dll_str
-//            << endl;
-//     }
-//
-//   } catch (std::exception &e) {
-//     cerr << "Error appending to list : " << e.what() << endl;
-//   }
-// }
+void test_append() {
+  try {
+    DoublyLinkedList<int> dll;
+    dll.append(0);
+    string dll_str = dll.to_string();
+    if (dll_str != "0") {
+      cout << "Incorrect append result. Expected 0 but got : " << dll_str
+           << endl;
+    }
+
+    dll.append(2);
+    dll.append(-1);
+    dll_str = dll.to_string();
+    if (dll_str != "0 2 -1") {
+      cout << "Incorrect append result. Expected 0 2 -1 but got : " << dll_str
+           << endl;
+    }
+
+  } catch (std::exception &e) {
+    cerr << "Error appending to list : " << e.what() << endl;
+  }
+}
 //
 // void test_indexing() {
 //   try {
@@ -477,7 +476,7 @@ using std::string;
 // }
 
 int main() {
-  // test_append();
+  test_append();
   // test_indexing();
   // test_insert();
   // test_remove();

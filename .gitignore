@@ -1,3 +1,5 @@
 .jj/
 .git/
 .ccls-cache/
+test
+*.o

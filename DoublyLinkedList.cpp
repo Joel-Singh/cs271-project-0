@@ -6,6 +6,7 @@
 //=================================================
 
 #include "DoublyLinkedList.h"
+#include <cassert>
 #include <iostream>
 #include <stdlib.h>
 
@@ -46,7 +47,34 @@ template <typename T>
 DoublyLinkedList<T>
 DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &mylist) {}
 
-template <typename T> void DoublyLinkedList<T>::append(const T &item) {}
+//=================================================
+// append
+// Appends to the doubly linked list in O(1) time using the tail pointer
+// Parameters:
+//  item: The item to append
+// Return Value:
+//  void
+//=================================================
+template <typename T> void DoublyLinkedList<T>::append(const T &item) {
+  Node *n = new Node;
+
+  n->val = item;
+  n->next = nullptr;
+  n->prev = nullptr;
+
+  if (tail == nullptr) {
+    // Head should also be null
+    assert(head == nullptr);
+    this->head = n;
+    this->tail = n;
+  } else {
+    // The next pointer on the tail node should be null
+    assert(tail->next == nullptr);
+    n->prev = tail;
+    tail->next = n;
+    tail = n;
+  }
+}
 
 template <typename T> T &DoublyLinkedList<T>::operator[](int index) {}
 
