@@ -8,6 +8,7 @@
 // carefully.
 //========================================================
 
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>

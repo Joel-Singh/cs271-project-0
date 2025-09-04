@@ -20,24 +20,30 @@ using std::cout; // more specific than using namespace std -- fewer
 using std::endl;
 using std::string;
 
+template <typename T>
+void test(std::string description, T &actual, std::string expected) {
+  cout << "Running: `" << description << "`" << endl;
+  if (actual.to_string() != expected) {
+
+    cout << "FAILED: `" << description << "`" << endl;
+    cout << "Expected: " << expected << endl;
+    cout << "Actual: " << actual.to_string() << endl;
+
+  } else {
+    cout << "Successful: `" << description << "`" << endl;
+  }
+  cout << "------------------------------" << endl;
+}
+
 void test_append() {
   try {
     DoublyLinkedList<int> dll;
     dll.append(0);
-    string dll_str = dll.to_string();
-    if (dll_str != "0") {
-      cout << "Incorrect append result. Expected 0 but got : " << dll_str
-           << endl;
-    }
+    test("Single append of 0", dll, "0");
 
     dll.append(2);
     dll.append(-1);
-    dll_str = dll.to_string();
-    if (dll_str != "0 2 -1") {
-      cout << "Incorrect append result. Expected 0 2 -1 but got : " << dll_str
-           << endl;
-    }
-
+    test("Appending multiple numbers", dll, "0 2 -1");
   } catch (std::exception &e) {
     cerr << "Error appending to list : " << e.what() << endl;
   }
