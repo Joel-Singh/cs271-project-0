@@ -332,62 +332,34 @@ void test_length() {
     cerr << "Error in determining length : " << e.what() << endl;
   }
 }
-//
-// // Testing copy constructor after testing append, remove, and length
-// void test_copy_constructor() {
-//   try {
-//     DoublyLinkedList<int> x;
-//     x.append(0);
-//     x.append(2);
-//     x.append(-1);
-//
-//     DoublyLinkedList<int> y(x);
-//     string dll_str = y.to_string();
-//     if (dll_str != "0 2 -1") {
-//       cout << "Incorrect copy constructor result. Expected 0 2 -1 but got : "
-//            << dll_str << endl;
-//     }
-//
-//     x.append(3);
-//     y.append(9);
-//
-//     dll_str = y.to_string();
-//     if (dll_str != "0 2 -1 9") {
-//       cout << "Incorrect copy constructor result after append. Expected 0 2
-//       -1 "
-//               "9 but got : "
-//            << dll_str << endl;
-//     }
-//
-//     dll_str = x.to_string();
-//     if (dll_str != "0 2 -1 3") {
-//       cout << "Incorrect copy constructor result after append. Expected 0 2
-//       -1 "
-//               "3 but got : "
-//            << dll_str << endl;
-//     }
-//
-//     x.remove(0);
-//     dll_str = y.to_string();
-//     if (dll_str != "0 2 -1 9") {
-//       cout << "Incorrect copy constructor result after remove. Expected 0 2
-//       -1 "
-//               "9 but got : "
-//            << dll_str << endl;
-//     }
-//
-//     dll_str = x.to_string();
-//     if (dll_str != "2 -1 3") {
-//       cout << "Incorrect copy constructor result after remove. Expected 2 -1
-//       3 "
-//               "but got : "
-//            << dll_str << endl;
-//     }
-//
-//   } catch (std::exception &e) {
-//     cerr << "Error copying list : " << e.what() << endl;
-//   }
-// }
+
+// Testing copy constructor after testing append, remove, and length
+void test_copy_constructor() {
+  try {
+    DoublyLinkedList<int> x;
+    x.append(0);
+    x.append(2);
+    x.append(-1);
+
+    DoublyLinkedList<int> y(x);
+    test("Copy y", y, "0 2 -1");
+
+    x.append(3);
+    y.append(9);
+
+    test("Append after copy", y, "0 2 -1 9");
+    test("Append after copy", x, "0 2 -1 3");
+
+    x.remove(0);
+    test("Remove after copy on original does not effect new", y, "0 2 -1 9");
+    test("Remove after copy on original does effect original", x, "2 -1 3");
+
+    test("Copy has right length", y.length(), "4");
+
+  } catch (std::exception &e) {
+    cerr << "Error copying list : " << e.what() << endl;
+  }
+}
 //
 // // Testing assignment after testing append, remove, and length
 // void test_assignment() {
@@ -634,7 +606,7 @@ int main() {
   test_insert();
   test_remove();
   test_length();
-  // test_copy_constructor();
+  test_copy_constructor();
   // test_assignment();
   // test_isEmpty();
   // test_clear();

@@ -29,9 +29,36 @@ template <typename T> DoublyLinkedList<T>::DoublyLinkedList() {
 //  mylist: The other list
 //=================================================
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &mylist) {
-  head = nullptr;
-  tail = nullptr;
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &mylist)
+    : DoublyLinkedList() {
+
+  if (mylist.length() == 0) {
+    return;
+  }
+
+  stored_length = 1;
+
+  Node *ptr = mylist.head;
+
+  Node *new_node = new Node;
+  new_node->val = ptr->val;
+
+  head = new_node;
+
+  while (ptr->next != nullptr) {
+    Node *before = new_node;
+
+    new_node = new Node;
+    new_node->val = ptr->next->val;
+
+    new_node->prev = before;
+    before->next = new_node;
+
+    ptr = ptr->next;
+    stored_length++;
+  }
+
+  tail = new_node;
 }
 
 template <typename T> DoublyLinkedList<T>::~DoublyLinkedList<T>() {}
