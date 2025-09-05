@@ -81,13 +81,12 @@ template <typename T> DoublyLinkedList<T>::~DoublyLinkedList<T>() {}
 // operator=
 // Assignment operator
 // Parameters:
-//  mylist: the other list
+//  mylist: the other list to assign from
 //=================================================
 template <typename T>
 DoublyLinkedList<T>
 DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &mylist) {
-  DoublyLinkedList<T> copy(mylist);
-  // Call copy constructor
+  copy_from(mylist);
   return *this;
 }
 

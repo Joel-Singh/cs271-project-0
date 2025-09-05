@@ -369,44 +369,21 @@ void test_assignment() {
     x.append(2);
     x.append(-1);
 
-    DoublyLinkedList<int> y = x;
-    string dll_str = y.to_string();
-    if (dll_str != "0 2 -1") {
-      cout << "Incorrect assignment result. Expected 0 2 -1 but got : "
-           << dll_str << endl;
-    }
+    DoublyLinkedList<int> y;
+    y = x;
+    test("Assignment operator", y, "0 2 -1");
 
     x.append(3);
     y.append(9);
 
-    dll_str = y.to_string();
-    if (dll_str != "0 2 -1 9") {
-      cout << "Incorrect assignment result after append. Expected 0 2 -1 9 but "
-              "got : "
-           << dll_str << endl;
-    }
+    test("Assignment operator", y, "0 2 -1 9");
 
-    dll_str = x.to_string();
-    if (dll_str != "0 2 -1 3") {
-      cout << "Incorrect assignment result after append. Expected 0 2 -1 3 but "
-              "got : "
-           << dll_str << endl;
-    }
+    test("Assignment operator", x, "0 2 -1 3");
 
     x.remove(0);
-    dll_str = y.to_string();
-    if (dll_str != "0 2 -1 9") {
-      cout << "Incorrect assignment result after remove. Expected 0 2 -1 9 but "
-              "got : "
-           << dll_str << endl;
-    }
+    test("Assignment operator", y, "0 2 -1 9");
 
-    dll_str = x.to_string();
-    if (dll_str != "2 -1 3") {
-      cout << "Incorrect assignment result after remove. Expected 2 -1 3 but "
-              "got : "
-           << dll_str << endl;
-    }
+    test("Assignment operator", x, "2 -1 3");
 
   } catch (std::exception &e) {
     cerr << "Error assigning list : " << e.what() << endl;
