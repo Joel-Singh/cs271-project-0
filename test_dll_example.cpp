@@ -42,8 +42,8 @@ void test(std::string description, T &actual, std::string expected) {
   cout << "Running: `" << description << "`" << endl;
   if (stringify(actual) != expected) {
     cout << "FAILED: `" << description << "`" << endl;
-    cout << "Expected: " << expected << endl;
-    cout << "Actual: " << stringify(actual) << endl;
+    cout << "Expected: `" << expected << "`" << endl;
+    cout << "Actual: `" << stringify(actual) << "`" << endl;
 
   } else {
     cout << "Successful: `" << description << "`" << endl;
@@ -147,29 +147,82 @@ void test_indexing() {
          << e.what() << endl;
   }
 }
-//
-// void test_insert() {
-//   try {
-//     DoublyLinkedList<int> dll;
-//     dll.insert(1, 0);
-//     string dll_str = dll.to_string();
-//     if (dll_str != "1") {
-//       cout << "Incorrect insert result. Expected 1 but got : " << dll_str
-//            << endl;
-//     }
-//     dll.insert(2, 0);
-//     dll.insert(-1, 1);
-//     dll.insert(5, 3);
-//     dll_str = dll.to_string();
-//     if (dll.to_string() != "2 -1 1 5") {
-//       cout << "Incorrect insert result. Expected 2 -1 1 5 but got : " <<
-//       dll_str
-//            << endl;
-//     }
-//   } catch (std::exception &e) {
-//     cerr << "Error inserting into list : " << e.what() << endl;
-//   }
-// }
+
+void test_insert() {
+  try {
+    DoublyLinkedList<int> dll;
+
+    dll.insert(1, 0);
+    test("Insert one element", dll, "1");
+
+    dll.insert(2, 0);
+    test("Insert multiple elements", dll, "2 1");
+
+    dll.insert(-1, 1);
+    test("Insert multiple elements", dll, "2 -1 1");
+
+    dll.insert(5, 3);
+    test("Insert multiple elements", dll, "2 -1 1 5");
+
+  } catch (std::exception &e) {
+    cerr << "Error inserting into list : " << e.what() << endl;
+  }
+
+  try {
+    DoublyLinkedList<string> dll;
+
+    dll.insert("Slayter", 0);
+    test("Insert one element", dll, "Slayter");
+
+    dll.insert("Higley", 0);
+    test("Insert multiple elements", dll, "Higley Slayter");
+
+    dll.insert("Barney", 1);
+    test("Insert multiple elements", dll, "Higley Barney Slayter");
+
+    dll.insert("Olin", 3);
+    test("Insert multiple elements", dll, "Higley Barney Slayter Olin");
+
+  } catch (std::exception &e) {
+    cerr << "Error inserting into list : " << e.what() << endl;
+  }
+
+  // Test for out-of-bounds handling
+  try {
+    DoublyLinkedList<int> dll;
+    dll.insert(0, 0);
+    dll.insert(1, 1);
+    dll.insert(2, 2);
+    dll.insert(-1, -1);
+
+    cerr << "Expected exception not thrown in insert for out of bounds "
+            "index (-1)"
+         << endl;
+
+  } catch (std::exception &e) {
+    cout << "Exception correctly thrown in insert for out of bounds index "
+            "(-1) : "
+         << e.what() << endl;
+  }
+
+  // Out of bounds in the positive direction
+  try {
+    DoublyLinkedList<int> dll;
+    dll.insert(0, 0);
+    dll.insert(1, 1);
+    dll.insert(2, 2);
+    dll.insert(99, 99);
+
+    cerr << "Expected exception not thrown in insert for out of bounds "
+            "index (99)"
+         << endl;
+
+  } catch (std::exception &e) {
+    cout << "Exception correctly thrown in insert for out of bounds index "
+            "(99) : "
+         << e.what() << endl;
+  }
+}
 //
 // void test_remove() {
 //   try {
@@ -533,7 +586,7 @@ void test_indexing() {
 int main() {
   test_append();
   test_indexing();
-  // test_insert();
+  test_insert();
   // test_remove();
   // test_length();
   // test_copy_constructor();

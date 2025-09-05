@@ -63,11 +63,11 @@ template <typename T> void DoublyLinkedList<T>::append(const T &item) {
   n->next = nullptr;
   n->prev = nullptr;
 
-  if (tail == nullptr) {
-    // Head should also be null
+  if (length() == 0) {
     assert(head == nullptr);
-    this->head = n;
-    this->tail = n;
+    assert(tail == nullptr);
+    head = n;
+    tail = n;
   } else {
     // The next pointer on the tail node should be null
     assert(tail->next == nullptr);
@@ -91,8 +91,43 @@ template <typename T> T &DoublyLinkedList<T>::operator[](int index) {
   return get_node_at_index(index)->val;
 }
 
+//=================================================
+// insert
+// Inserts a node with `item` at `index`
+//
+// Parameters:
+//  item: the item to put on the node
+//  index: the spot to put the node
+//=================================================
 template <typename T>
-void DoublyLinkedList<T>::insert(const T &item, int index) {}
+void DoublyLinkedList<T>::insert(const T &item, int index) {
+  Node *new_node = new Node;
+  new_node->val = item;
+
+  if (length() == 0 || index == length()) {
+    append(item);
+  } else {
+    Node *after = get_node_at_index(index);
+    Node *before = after->prev;
+
+    bool prepending = before == nullptr;
+    if (prepending) {
+      head = new_node;
+      new_node->next = after;
+      after->prev = new_node;
+    } else {
+      new_node->prev = before;
+
+      new_node->next = after;
+
+      before->next = new_node;
+
+      after->prev = new_node;
+    }
+
+    stored_length++;
+  }
+}
 
 template <typename T> void DoublyLinkedList<T>::remove(int index) {}
 
@@ -140,7 +175,6 @@ void DoublyLinkedList<T>::throw_on_invalid_index(int index) {
 // Parameters:
 //  index: The index to get the node at
 //=================================================
-
 template <typename T>
 typename DoublyLinkedList<T>::Node *
 DoublyLinkedList<T>::get_node_at_index(int index) {
