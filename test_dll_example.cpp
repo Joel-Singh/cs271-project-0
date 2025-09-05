@@ -47,6 +47,18 @@ void test_append() {
   } catch (std::exception &e) {
     cerr << "Error appending to list : " << e.what() << endl;
   }
+
+  try {
+    DoublyLinkedList<string> dll;
+    dll.append("heyo");
+    test("Single string append", dll, "heyo");
+
+    dll.append("its");
+    dll.append("me");
+    test("Appending multiple strings", dll, "heyo its me");
+  } catch (std::exception &e) {
+    cerr << "Error appending to list : " << e.what() << endl;
+  }
 }
 //
 // void test_indexing() {
