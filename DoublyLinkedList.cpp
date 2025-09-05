@@ -111,6 +111,8 @@ template <typename T> void DoublyLinkedList<T>::append(const T &item) {
     head = n;
     tail = n;
   } else {
+    assert(tail != nullptr);
+
     // The next pointer on the tail node should be null
     assert(tail->next == nullptr);
     n->prev = tail;
@@ -235,6 +237,8 @@ template <typename T> void DoublyLinkedList<T>::clear() {
 
   head = nullptr;
   tail = nullptr;
+
+  stored_length = 0;
 }
 
 //=================================================

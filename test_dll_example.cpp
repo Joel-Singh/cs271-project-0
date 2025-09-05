@@ -414,44 +414,31 @@ void test_isEmpty() {
     cerr << "Error in determining if list is empty : " << e.what() << endl;
   }
 }
-//
-// void test_clear() {
-//   try {
-//     DoublyLinkedList<int> dll;
-//     dll.append(1);
-//     dll.append(2);
-//
-//     dll.clear();
-//
-//     if (!dll.isEmpty()) {
-//       cout << "Cleared list identified as non-empty" << endl;
-//     }
-//     if (dll.length() != 0) {
-//       cout << "Cleared list has length longer than 0" << endl;
-//     }
-//
-//     dll.append(3);
-//
-//     if (dll.isEmpty()) {
-//       cout << "List identified as empty after append following clear" <<
-//       endl;
-//     }
-//     if (dll.length() != 1) {
-//       cout << "Incorect length after clearing and appending. Expected 1 but "
-//               "got : "
-//            << dll.length() << endl;
-//     }
-//
-//     string dll_str = dll.to_string();
-//     if (dll_str != "3") {
-//       cout << "Incorrect append after clearing. Expected 3 but got : "
-//            << dll_str << endl;
-//     }
-//
-//   } catch (std::exception &e) {
-//     cerr << "Error in clearing list : " << e.what() << endl;
-//   }
-// }
+
+void test_clear() {
+  try {
+    DoublyLinkedList<int> dll;
+    dll.append(1);
+    dll.append(2);
+
+    dll.clear();
+
+    test("Clear list is empty", dll.isEmpty(), "true");
+    test("Clear list has zero length", dll.length(), "0");
+
+    dll.append(3);
+
+    test("List is not identified as empty after append following clear",
+         dll.isEmpty(), "false");
+    test("Correct length after clearing and appending", dll.length(), "1");
+
+    string dll_str = dll.to_string();
+    test("correct append after clearing.", dll, "3");
+
+  } catch (std::exception &e) {
+    cerr << "Error in clearing list : " << e.what() << endl;
+  }
+}
 //
 // void test_concatenate() {
 //   try {
@@ -583,7 +570,7 @@ int main() {
   test_copy_constructor();
   test_assignment();
   test_isEmpty();
-  // test_clear();
+  test_clear();
   // test_concatenate();
   //
   // time_test();
