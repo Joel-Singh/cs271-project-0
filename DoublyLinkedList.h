@@ -70,6 +70,7 @@ private:
   int stored_length;
 
   void throw_on_invalid_index(int index);
+  Node *get_node_at_index(int index);
 };
 
 #include "DoublyLinkedList.cpp"

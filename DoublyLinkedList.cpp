@@ -88,28 +88,7 @@ template <typename T> void DoublyLinkedList<T>::append(const T &item) {
 //  index: The index to get
 //=================================================
 template <typename T> T &DoublyLinkedList<T>::operator[](int index) {
-  throw_on_invalid_index(index);
-
-  assert(head != nullptr);
-
-  bool closer_to_tail = ((length() - 1) - index) < index;
-  if (closer_to_tail) {
-    Node *ptr = tail;
-    for (int i = 1; i < length() - index; i++) {
-      assert(ptr->prev != nullptr);
-      ptr = ptr->prev;
-    }
-
-    return ptr->val;
-  } else {
-    Node *ptr = head;
-    for (int i = 0; i < index; i++) {
-      assert(ptr->next != nullptr);
-      ptr = ptr->next;
-    }
-
-    return ptr->val;
-  }
+  return get_node_at_index(index)->val;
 }
 
 template <typename T>
@@ -137,11 +116,54 @@ template <typename T> bool DoublyLinkedList<T>::isEmpty() const {}
 
 template <typename T> void DoublyLinkedList<T>::clear() {}
 
+//=================================================
+// throw_on_invalid_index
+// Throws a runtime_error on an invalid index
+//
+// Parameters:
+//  The index to check
+//=================================================
 template <typename T>
 void DoublyLinkedList<T>::throw_on_invalid_index(int index) {
   if (index < 0 || index >= length()) {
     throw runtime_error("`" + std::to_string(index) +
                         "` is invalid index for list of length " +
                         std::to_string(length()));
+  }
+}
+
+//=================================================
+// get_node_at_index
+// Gets a node at a specific index, throwing if the index is invalid. Optimized
+// to start from the head or tail, whichever is closest
+//
+// Parameters:
+//  index: The index to get the node at
+//=================================================
+
+template <typename T>
+typename DoublyLinkedList<T>::Node *
+DoublyLinkedList<T>::get_node_at_index(int index) {
+  throw_on_invalid_index(index);
+
+  assert(head != nullptr);
+
+  bool closer_to_tail = ((length() - 1) - index) < index;
+  if (closer_to_tail) {
+    Node *ptr = tail;
+    for (int i = 1; i < length() - index; i++) {
+      assert(ptr->prev != nullptr);
+      ptr = ptr->prev;
+    }
+
+    return ptr;
+  } else {
+    Node *ptr = head;
+    for (int i = 0; i < index; i++) {
+      assert(ptr->next != nullptr);
+      ptr = ptr->next;
+    }
+
+    return ptr;
   }
 }
