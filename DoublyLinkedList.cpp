@@ -88,11 +88,7 @@ template <typename T> void DoublyLinkedList<T>::append(const T &item) {
 //  index: The index to get
 //=================================================
 template <typename T> T &DoublyLinkedList<T>::operator[](int index) {
-  if (index < 0 || index >= length()) {
-    throw runtime_error("`" + std::to_string(index) +
-                        "` is invalid index for list of length " +
-                        std::to_string(length()));
-  }
+  throw_on_invalid_index(index);
 
   assert(head != nullptr);
 
@@ -140,3 +136,12 @@ template <typename T> int DoublyLinkedList<T>::length() const {
 template <typename T> bool DoublyLinkedList<T>::isEmpty() const {}
 
 template <typename T> void DoublyLinkedList<T>::clear() {}
+
+template <typename T>
+void DoublyLinkedList<T>::throw_on_invalid_index(int index) {
+  if (index < 0 || index >= length()) {
+    throw runtime_error("`" + std::to_string(index) +
+                        "` is invalid index for list of length " +
+                        std::to_string(length()));
+  }
+}

@@ -68,6 +68,8 @@ private:
   Node *head;
   Node *tail;
   int stored_length;
+
+  void throw_on_invalid_index(int index);
 };
 
 #include "DoublyLinkedList.cpp"
