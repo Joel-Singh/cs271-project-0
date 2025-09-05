@@ -13,32 +13,24 @@
 using namespace std;
 
 //=================================================
-// Default constructor
-// Constructs an empty doubly linked list
-//=================================================
-template <typename T> DoublyLinkedList<T>::DoublyLinkedList() {
-  head = nullptr;
-  tail = nullptr;
-  stored_length = 0;
-}
-
-//=================================================
-// Copy Constructor
-// Constructs a list from another one
+// copy_from
+// Copies original
+//
 // Parameters:
-//  mylist: The other list
+//  original: What to copy
 //=================================================
-template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &mylist)
-    : DoublyLinkedList() {
 
-  if (mylist.length() == 0) {
+template <typename T>
+void DoublyLinkedList<T>::copy_from(const DoublyLinkedList<T> &original) {
+  clear();
+
+  if (original.length() == 0) {
     return;
   }
 
   stored_length = 1;
 
-  Node *ptr = mylist.head;
+  Node *ptr = original.head;
 
   Node *new_node = new Node;
   new_node->val = ptr->val;
@@ -61,6 +53,28 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &mylist)
   tail = new_node;
 }
 
+//=================================================
+// Default constructor
+// Constructs an empty doubly linked list
+//=================================================
+template <typename T> DoublyLinkedList<T>::DoublyLinkedList() {
+  head = nullptr;
+  tail = nullptr;
+  stored_length = 0;
+}
+
+//=================================================
+// Copy Constructor
+// Constructs a list from another one
+// Parameters:
+//  mylist: The other list
+//=================================================
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &mylist)
+    : DoublyLinkedList() {
+  copy_from(mylist);
+}
+
 template <typename T> DoublyLinkedList<T>::~DoublyLinkedList<T>() {}
 
 //=================================================
@@ -68,12 +82,14 @@ template <typename T> DoublyLinkedList<T>::~DoublyLinkedList<T>() {}
 // Assignment operator
 // Parameters:
 //  mylist: the other list
-// Return Value:
-//  Return Value
 //=================================================
 template <typename T>
 DoublyLinkedList<T>
-DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &mylist) {}
+DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> &mylist) {
+  DoublyLinkedList<T> copy(mylist);
+  // Call copy constructor
+  return *this;
+}
 
 //=================================================
 // append
@@ -208,7 +224,17 @@ template <typename T> int DoublyLinkedList<T>::length() const {
 
 template <typename T> bool DoublyLinkedList<T>::isEmpty() const {}
 
-template <typename T> void DoublyLinkedList<T>::clear() {}
+template <typename T> void DoublyLinkedList<T>::clear() {
+  Node *next = head;
+  while (next != nullptr) {
+    next = head->next;
+    delete head;
+    head = next;
+  }
+
+  head = nullptr;
+  tail = nullptr;
+}
 
 //=================================================
 // throw_on_invalid_index

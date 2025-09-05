@@ -361,61 +361,57 @@ void test_copy_constructor() {
   }
 }
 //
-// // Testing assignment after testing append, remove, and length
-// void test_assignment() {
-//   try {
-//     DoublyLinkedList<int> x;
-//     x.append(0);
-//     x.append(2);
-//     x.append(-1);
-//
-//     DoublyLinkedList<int> y = x;
-//     string dll_str = y.to_string();
-//     if (dll_str != "0 2 -1") {
-//       cout << "Incorrect assignment result. Expected 0 2 -1 but got : "
-//            << dll_str << endl;
-//     }
-//
-//     x.append(3);
-//     y.append(9);
-//
-//     dll_str = y.to_string();
-//     if (dll_str != "0 2 -1 9") {
-//       cout << "Incorrect assignment result after append. Expected 0 2 -1 9
-//       but "
-//               "got : "
-//            << dll_str << endl;
-//     }
-//
-//     dll_str = x.to_string();
-//     if (dll_str != "0 2 -1 3") {
-//       cout << "Incorrect assignment result after append. Expected 0 2 -1 3
-//       but "
-//               "got : "
-//            << dll_str << endl;
-//     }
-//
-//     x.remove(0);
-//     dll_str = y.to_string();
-//     if (dll_str != "0 2 -1 9") {
-//       cout << "Incorrect assignment result after remove. Expected 0 2 -1 9
-//       but "
-//               "got : "
-//            << dll_str << endl;
-//     }
-//
-//     dll_str = x.to_string();
-//     if (dll_str != "2 -1 3") {
-//       cout << "Incorrect assignment result after remove. Expected 2 -1 3 but
-//       "
-//               "got : "
-//            << dll_str << endl;
-//     }
-//
-//   } catch (std::exception &e) {
-//     cerr << "Error assigning list : " << e.what() << endl;
-//   }
-// }
+// Testing assignment after testing append, remove, and length
+void test_assignment() {
+  try {
+    DoublyLinkedList<int> x;
+    x.append(0);
+    x.append(2);
+    x.append(-1);
+
+    DoublyLinkedList<int> y = x;
+    string dll_str = y.to_string();
+    if (dll_str != "0 2 -1") {
+      cout << "Incorrect assignment result. Expected 0 2 -1 but got : "
+           << dll_str << endl;
+    }
+
+    x.append(3);
+    y.append(9);
+
+    dll_str = y.to_string();
+    if (dll_str != "0 2 -1 9") {
+      cout << "Incorrect assignment result after append. Expected 0 2 -1 9 but "
+              "got : "
+           << dll_str << endl;
+    }
+
+    dll_str = x.to_string();
+    if (dll_str != "0 2 -1 3") {
+      cout << "Incorrect assignment result after append. Expected 0 2 -1 3 but "
+              "got : "
+           << dll_str << endl;
+    }
+
+    x.remove(0);
+    dll_str = y.to_string();
+    if (dll_str != "0 2 -1 9") {
+      cout << "Incorrect assignment result after remove. Expected 0 2 -1 9 but "
+              "got : "
+           << dll_str << endl;
+    }
+
+    dll_str = x.to_string();
+    if (dll_str != "2 -1 3") {
+      cout << "Incorrect assignment result after remove. Expected 2 -1 3 but "
+              "got : "
+           << dll_str << endl;
+    }
+
+  } catch (std::exception &e) {
+    cerr << "Error assigning list : " << e.what() << endl;
+  }
+}
 //
 // void test_isEmpty() {
 //   try {
@@ -607,7 +603,7 @@ int main() {
   test_remove();
   test_length();
   test_copy_constructor();
-  // test_assignment();
+  test_assignment();
   // test_isEmpty();
   // test_clear();
   // test_concatenate();

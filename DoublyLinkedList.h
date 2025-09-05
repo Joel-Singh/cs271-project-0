@@ -71,6 +71,8 @@ private:
 
   void throw_on_invalid_index(int index);
   Node *get_node_at_index(int index);
+
+  void copy_from(const DoublyLinkedList<T> &original);
 };
 
 #include "DoublyLinkedList.cpp"
