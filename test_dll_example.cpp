@@ -223,42 +223,87 @@ void test_insert() {
          << e.what() << endl;
   }
 }
-//
-// void test_remove() {
-//   try {
-//     DoublyLinkedList<int> dll;
-//     dll.append(1);
-//     dll.append(2);
-//     dll.append(3);
-//     dll.append(4);
-//     dll.append(5);
-//
-//     dll.remove(0);
-//     string dll_str = dll.to_string();
-//     if (dll_str != "2 3 4 5") {
-//       cout << "Incorrect remove result. Expected 2 3 4 5 but got : " <<
-//       dll_str
-//            << endl;
-//     }
-//
-//     dll.remove(3);
-//     dll_str = dll.to_string();
-//     if (dll_str != "2 3 4") {
-//       cout << "Incorrect remove result. Expected 2 3 4 but got : " << dll_str
-//            << endl;
-//     }
-//
-//     dll.remove(1);
-//     dll_str = dll.to_string();
-//     if (dll_str != "2 4") {
-//       cout << "Incorrect remove result. Expected 2 4 but got : " << dll_str
-//            << endl;
-//     }
-//
-//   } catch (std::exception &e) {
-//     cerr << "Error removing from list : " << e.what() << endl;
-//   }
-// }
+
+void test_remove() {
+  try {
+    DoublyLinkedList<int> dll;
+    dll.append(1);
+    dll.append(2);
+    dll.append(3);
+    dll.append(4);
+    dll.append(5);
+
+    dll.remove(0);
+    test("Remove first element", dll, "2 3 4 5");
+
+    dll.remove(3);
+    test("Remove third element", dll, "2 3 4");
+
+    dll.remove(1);
+    test("Remove second element", dll, "2 4");
+
+    dll.remove(1);
+    test("Remove last element", dll, "2");
+  } catch (std::exception &e) {
+    cerr << "Error removing from list : " << e.what() << endl;
+  }
+
+  try {
+    DoublyLinkedList<string> dll;
+    dll.append("Slayter");
+    dll.append("Higley");
+    dll.append("Olin");
+    dll.append("Barney");
+    dll.append("Burton-Morgan");
+
+    dll.remove(0);
+    test("Remove first element", dll, "Higley Olin Barney Burton-Morgan");
+
+    dll.remove(3);
+    test("Remove third element", dll, "Higley Olin Barney");
+
+    dll.remove(1);
+    test("Remove second element", dll, "Higley Barney");
+
+    dll.remove(1);
+    test("Remove last element", dll, "Higley");
+  } catch (std::exception &e) {
+    cerr << "Error removing from list : " << e.what() << endl;
+  }
+
+  // Test for out-of-bounds handling
+  try {
+    DoublyLinkedList<int> dll;
+    dll.remove(-1);
+
+    cerr << "Expected exception not thrown in remove for out of bounds "
+            "index (-1)"
+         << endl;
+
+  } catch (std::exception &e) {
+    cout << "Exception correctly thrown in remove for out of bounds index "
+            "(-1) : "
+         << e.what() << endl;
+  }
+
+  // Out of bounds in the positive direction
+  try {
+    DoublyLinkedList<int> dll;
+    dll.append(0);
+    dll.append(1);
+    dll.append(2);
+    dll.remove(99);
+
+    cerr << "Expected exception not thrown in remove for out of bounds "
+            "index (99)"
+         << endl;
+
+  } catch (std::exception &e) {
+    cout << "Exception correctly thrown in remove for out of bounds index "
+            "(99) : "
+         << e.what() << endl;
+  }
+}
 //
 // // Testing length after testing append and remove
 // void test_length() {
@@ -587,7 +632,7 @@ int main() {
   test_append();
   test_indexing();
   test_insert();
-  // test_remove();
+  test_remove();
   // test_length();
   // test_copy_constructor();
   // test_assignment();

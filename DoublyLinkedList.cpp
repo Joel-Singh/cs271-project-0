@@ -82,7 +82,7 @@ template <typename T> void DoublyLinkedList<T>::append(const T &item) {
 //=================================================
 // operator[]
 // Get a list value at `index`. Traverse from the head. Or the tail if the list
-// value is closer to it.
+// value is closer to it. Throws on invalid `index`.
 //
 // Parameters:
 //  index: The index to get
@@ -93,7 +93,7 @@ template <typename T> T &DoublyLinkedList<T>::operator[](int index) {
 
 //=================================================
 // insert
-// Inserts a node with `item` at `index`
+// Inserts a node with `item` at `index`. Throws on invalid `index``
 //
 // Parameters:
 //  item: the item to put on the node
@@ -129,7 +129,39 @@ void DoublyLinkedList<T>::insert(const T &item, int index) {
   }
 }
 
-template <typename T> void DoublyLinkedList<T>::remove(int index) {}
+//=================================================
+// remove
+// Removes a node at index, throws on invalid index.
+//
+// Parameters:
+//  index: Index of node to remove
+//=================================================
+template <typename T> void DoublyLinkedList<T>::remove(int index) {
+  Node *to_remove = get_node_at_index(index);
+
+  Node *before = to_remove->prev;
+  Node *after = to_remove->next;
+
+  bool is_head = before == nullptr;
+  if (is_head) {
+    head = after;
+  } else {
+    assert(before != nullptr);
+    before->next = after;
+  }
+
+  bool is_tail = after == nullptr;
+  if (is_tail) {
+    tail = before;
+  } else {
+    assert(after != nullptr);
+    after->prev = before;
+  }
+
+  delete to_remove;
+
+  stored_length--;
+}
 
 template <typename T>
 DoublyLinkedList<T>
