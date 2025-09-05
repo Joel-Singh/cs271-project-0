@@ -458,102 +458,101 @@ void test_concatenate() {
     cerr << "Error in concatenating lists : " << e.what() << endl;
   }
 }
-//
-// // Find the number of nanoseconds it takes to run each method when n is large
-// // How can we use this to check if the time complexity is what we expect?
-//
-// void time_test() {
-//   std::srand(std::time(0)); // seed random with current time
-//   DoublyLinkedList<int> x;
-//   // TO-DO: generate large list
-//
-//   int total = 0;
-//
-//   int val = std::rand() % 100000;
-//   auto begin = std::chrono::high_resolution_clock::now();
-//   x.append(val);
-//   auto end = std::chrono::high_resolution_clock::now();
-//   auto elapsed =
-//       std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-//   cout << "append time test took " << elapsed.count() << " nanoseconds" <<
-//   endl; total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   int n = x.length();
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "length time test took " << elapsed.count() << "
-//   nanoseconds" << endl; total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   x[n - 1];
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "indexing time test took " << elapsed.count() << "
-//   nanoseconds"
-//        << endl;
-//   total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   x.remove(n - 1);
-//   n--;
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "remove time test took " << elapsed.count() << "
-//   nanoseconds" << endl; total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   x.insert(val, n);
-//   n++;
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "insert time test took " << elapsed.count() << "
-//   nanoseconds" << endl; total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   x.isEmpty();
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "isEmpty time test took " << elapsed.count() << "
-//   nanoseconds"
-//        << endl;
-//   total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   x.clear();
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "clear time test took " << elapsed.count() << "
-//   nanoseconds" << endl; total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   DoublyLinkedList<int> y(x);
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "copy constructor time test took " << elapsed.count()
-//        << " nanoseconds" << endl;
-//   total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   x + y;
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "concatenate time test took " << elapsed.count() << "
-//   nanoseconds"
-//        << endl;
-//   total += elapsed.count();
-//
-//   begin = std::chrono::high_resolution_clock::now();
-//   DoublyLinkedList<int> z = x;
-//   end = std::chrono::high_resolution_clock::now();
-//   elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end -
-//   begin); cout << "assignment time test took " << elapsed.count() << "
-//   nanoseconds"
-//        << endl;
-//   total += elapsed.count();
-//
-//   cout << "Total time: " << total << endl;
-// }
+
+// Find the number of nanoseconds it takes to run each method when n is large
+// How can we use this to check if the time complexity is what we expect?
+
+void time_test() {
+  std::srand(std::time(0)); // seed random with current time
+  DoublyLinkedList<int> x;
+  // TO-DO: generate large list
+
+  int total = 0;
+
+  int val = std::rand() % 100000;
+  auto begin = std::chrono::high_resolution_clock::now();
+  x.append(val);
+  auto end = std::chrono::high_resolution_clock::now();
+  auto elapsed =
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "append time test took " << elapsed.count() << " nanoseconds" << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  int n = x.length();
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "length time test took " << elapsed.count() << " nanoseconds "
+       << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  x[n - 1];
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "indexing time test took " << elapsed.count() << " nanoseconds "
+       << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  x.remove(n - 1);
+  n--;
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "remove time test took " << elapsed.count() << " nanoseconds "
+       << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  x.insert(val, n);
+  n++;
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "insert time test took " << elapsed.count() << " nanoseconds "
+       << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  x.isEmpty();
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "isEmpty time test took " << elapsed.count() << " nanoseconds "
+       << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  x.clear();
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "clear time test took " << elapsed.count() << " nanoseconds " << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  DoublyLinkedList<int> y(x);
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "copy constructor time test took " << elapsed.count()
+       << " nanoseconds" << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  x + y;
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "concatenate time test took " << elapsed.count() << " nanoseconds "
+       << endl;
+  total += elapsed.count();
+
+  begin = std::chrono::high_resolution_clock::now();
+  DoublyLinkedList<int> z = x;
+  end = std::chrono::high_resolution_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+  cout << "assignment time test took " << elapsed.count() << " nanoseconds "
+       << endl;
+  total += elapsed.count();
+
+  cout << "Total time: " << total << endl;
+}
 
 int main() {
   test_append();
@@ -566,8 +565,8 @@ int main() {
   test_isEmpty();
   test_clear();
   test_concatenate();
-  //
-  // time_test();
+
+  time_test();
 
   cout << "Testing completed" << endl;
 
