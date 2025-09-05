@@ -388,6 +388,31 @@ void test_copy_constructor() {
   } catch (std::exception &e) {
     cerr << "Error copying list : " << e.what() << endl;
   }
+
+  try {
+    DoublyLinkedList<string> x;
+    x.append("0");
+    x.append("2");
+    x.append("-1");
+
+    DoublyLinkedList<string> y(x);
+    test("Copy y", y, "0 2 -1");
+
+    x.append("3");
+    y.append("9");
+
+    test("Append after copy", y, "0 2 -1 9");
+    test("Append after copy", x, "0 2 -1 3");
+
+    x.remove(0);
+    test("Remove after copy on original does not effect new", y, "0 2 -1 9");
+    test("Remove after copy on original does effect original", x, "2 -1 3");
+
+    test("Copy has right length", y.length(), "4");
+
+  } catch (std::exception &e) {
+    cerr << "Error copying list : " << e.what() << endl;
+  }
 }
 //
 // Testing assignment after testing append, remove, and length
@@ -417,6 +442,32 @@ void test_assignment() {
   } catch (std::exception &e) {
     cerr << "Error assigning list : " << e.what() << endl;
   }
+
+  try {
+    DoublyLinkedList<string> x;
+    x.append("0");
+    x.append("2");
+    x.append("-1");
+
+    DoublyLinkedList<string> y;
+    y = x;
+    test("Assignment operator", y, "0 2 -1");
+
+    x.append("3");
+    y.append("9");
+
+    test("Assignment operator makes a deep copy", y, "0 2 -1 9");
+
+    test("Assignment operator makes a deep copy", x, "0 2 -1 3");
+
+    x.remove(0);
+    test("Assignment operator makes a deep copy", y, "0 2 -1 9");
+
+    test("Assignment operator makes a deep copy", x, "2 -1 3");
+
+  } catch (std::exception &e) {
+    cerr << "Error assigning list : " << e.what() << endl;
+  }
 }
 
 void test_isEmpty() {
@@ -426,6 +477,23 @@ void test_isEmpty() {
 
     dll.append(1);
     dll.append(2);
+    test("isEmpty false on non-empty list", dll.isEmpty(), "false");
+
+    dll.remove(1);
+    test("isEmpty false on non-empty list", dll.isEmpty(), "false");
+
+    dll.remove(0);
+    test("isEmpty true on empty list", dll.isEmpty(), "true");
+  } catch (std::exception &e) {
+    cerr << "Error in determining if list is empty : " << e.what() << endl;
+  }
+
+  try {
+    DoublyLinkedList<string> dll;
+    test("isEmpty true on empty list", dll.isEmpty(), "true");
+
+    dll.append("1");
+    dll.append("2");
     test("isEmpty false on non-empty list", dll.isEmpty(), "false");
 
     dll.remove(1);
@@ -461,6 +529,29 @@ void test_clear() {
   } catch (std::exception &e) {
     cerr << "Error in clearing list : " << e.what() << endl;
   }
+
+  try {
+    DoublyLinkedList<string> dll;
+    dll.append("1");
+    dll.append("2");
+
+    dll.clear();
+
+    test("Clear list is empty", dll.isEmpty(), "true");
+    test("Clear list has zero length", dll.length(), "0");
+
+    dll.append("3");
+
+    test("List is not identified as empty after append following clear",
+         dll.isEmpty(), "false");
+    test("Correct length after clearing and appending", dll.length(), "1");
+
+    string dll_str = dll.to_string();
+    test("correct append after clearing.", dll, "3");
+
+  } catch (std::exception &e) {
+    cerr << "Error in clearing list : " << e.what() << endl;
+  }
 }
 
 void test_concatenate() {
@@ -475,6 +566,23 @@ void test_concatenate() {
     y.append(7);
     y.append(8);
     y.append(9);
+
+    test("Concatenate", x + y, "1 2 3 4 7 8 9");
+  } catch (std::exception &e) {
+    cerr << "Error in concatenating lists : " << e.what() << endl;
+  }
+
+  try {
+    DoublyLinkedList<string> x;
+    x.append("1");
+    x.append("2");
+    x.append("3");
+    x.append("4");
+
+    DoublyLinkedList<string> y;
+    y.append("7");
+    y.append("8");
+    y.append("9");
 
     test("Concatenate", x + y, "1 2 3 4 7 8 9");
   } catch (std::exception &e) {
