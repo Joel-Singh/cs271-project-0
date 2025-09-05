@@ -207,9 +207,28 @@ template <typename T> void DoublyLinkedList<T>::remove(int index) {
   stored_length--;
 }
 
+//=================================================
+// operator+
+// Concatenation operator
+//
+// Parameters:
+//  mylist, the list to concatenate
+//=================================================
 template <typename T>
 DoublyLinkedList<T>
-DoublyLinkedList<T>::operator+(const DoublyLinkedList<T> &mylist) const {}
+DoublyLinkedList<T>::operator+(const DoublyLinkedList<T> &mylist) const {
+  DoublyLinkedList<T> a(*this);
+  DoublyLinkedList<T> b(mylist);
+
+  Node *ptr = b.head;
+  while (ptr != nullptr) {
+    // Okay to use append because it is O(1)
+    a.append(ptr->val);
+    ptr = ptr->next;
+  }
+
+  return a;
+}
 
 //=================================================
 // length()

@@ -439,31 +439,25 @@ void test_clear() {
     cerr << "Error in clearing list : " << e.what() << endl;
   }
 }
-//
-// void test_concatenate() {
-//   try {
-//     DoublyLinkedList<int> x;
-//     x.append(1);
-//     x.append(2);
-//     x.append(3);
-//     x.append(4);
-//
-//     DoublyLinkedList<int> y;
-//     y.append(7);
-//     y.append(8);
-//     y.append(9);
-//
-//     string dll_str = (x + y).to_string();
-//
-//     if (dll_str != "1 2 3 4 7 8 9") {
-//       cout << "Incorrect concatenate. Expected 1 2 3 4 7 8 9 but got : "
-//            << dll_str << endl;
-//     }
-//
-//   } catch (std::exception &e) {
-//     cerr << "Error in concatenating lists : " << e.what() << endl;
-//   }
-// }
+
+void test_concatenate() {
+  try {
+    DoublyLinkedList<int> x;
+    x.append(1);
+    x.append(2);
+    x.append(3);
+    x.append(4);
+
+    DoublyLinkedList<int> y;
+    y.append(7);
+    y.append(8);
+    y.append(9);
+
+    test("Concatenate", x + y, "1 2 3 4 7 8 9");
+  } catch (std::exception &e) {
+    cerr << "Error in concatenating lists : " << e.what() << endl;
+  }
+}
 //
 // // Find the number of nanoseconds it takes to run each method when n is large
 // // How can we use this to check if the time complexity is what we expect?
@@ -571,7 +565,7 @@ int main() {
   test_assignment();
   test_isEmpty();
   test_clear();
-  // test_concatenate();
+  test_concatenate();
   //
   // time_test();
 
