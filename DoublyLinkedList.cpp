@@ -221,7 +221,9 @@ template <typename T> int DoublyLinkedList<T>::length() const {
   return this->stored_length;
 }
 
-template <typename T> bool DoublyLinkedList<T>::isEmpty() const {}
+template <typename T> bool DoublyLinkedList<T>::isEmpty() const {
+  return stored_length == 0;
+}
 
 template <typename T> void DoublyLinkedList<T>::clear() {
   Node *next = head;

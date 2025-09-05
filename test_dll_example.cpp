@@ -28,7 +28,13 @@ using std::string;
 //  value: value to convert
 //=================================================
 template <typename T> string stringify(const T &value) {
-  if constexpr (std::is_arithmetic_v<T>) {
+  if constexpr (std::is_same_v<T, bool>) {
+    if (value) {
+      return "true";
+    } else {
+      return "false";
+    }
+  } else if constexpr (std::is_arithmetic_v<T>) {
     return std::to_string(value);
   } else if constexpr (std::is_same_v<T, std::string>) {
     return value;
@@ -376,43 +382,38 @@ void test_assignment() {
     x.append(3);
     y.append(9);
 
-    test("Assignment operator", y, "0 2 -1 9");
+    test("Assignment operator makes a deep copy", y, "0 2 -1 9");
 
-    test("Assignment operator", x, "0 2 -1 3");
+    test("Assignment operator makes a deep copy", x, "0 2 -1 3");
 
     x.remove(0);
-    test("Assignment operator", y, "0 2 -1 9");
+    test("Assignment operator makes a deep copy", y, "0 2 -1 9");
 
-    test("Assignment operator", x, "2 -1 3");
+    test("Assignment operator makes a deep copy", x, "2 -1 3");
 
   } catch (std::exception &e) {
     cerr << "Error assigning list : " << e.what() << endl;
   }
 }
-//
-// void test_isEmpty() {
-//   try {
-//     DoublyLinkedList<int> dll;
-//     if (!dll.isEmpty()) {
-//       cout << "Empty list identified as non-empty" << endl;
-//     }
-//     dll.append(1);
-//     dll.append(2);
-//     if (dll.isEmpty()) {
-//       cout << "Non-empty list identified as empty" << endl;
-//     }
-//     dll.remove(1);
-//     if (dll.isEmpty()) {
-//       cout << "Non-empty list identified as empty" << endl;
-//     }
-//     dll.remove(0);
-//     if (!dll.isEmpty()) {
-//       cout << "Empty list identified as non-empty" << endl;
-//     }
-//   } catch (std::exception &e) {
-//     cerr << "Error in determining if list is empty : " << e.what() << endl;
-//   }
-// }
+
+void test_isEmpty() {
+  try {
+    DoublyLinkedList<int> dll;
+    test("isEmpty true on empty list", dll.isEmpty(), "true");
+
+    dll.append(1);
+    dll.append(2);
+    test("isEmpty false on non-empty list", dll.isEmpty(), "false");
+
+    dll.remove(1);
+    test("isEmpty false on non-empty list", dll.isEmpty(), "false");
+
+    dll.remove(0);
+    test("isEmpty true on empty list", dll.isEmpty(), "true");
+  } catch (std::exception &e) {
+    cerr << "Error in determining if list is empty : " << e.what() << endl;
+  }
+}
 //
 // void test_clear() {
 //   try {
@@ -581,7 +582,7 @@ int main() {
   test_length();
   test_copy_constructor();
   test_assignment();
-  // test_isEmpty();
+  test_isEmpty();
   // test_clear();
   // test_concatenate();
   //
