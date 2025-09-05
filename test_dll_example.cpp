@@ -38,7 +38,7 @@ template <typename T> string stringify(const T &value) {
 }
 
 template <typename T>
-void test(std::string description, T &actual, std::string expected) {
+void test(std::string description, const T &actual, std::string expected) {
   cout << "Running: `" << description << "`" << endl;
   if (stringify(actual) != expected) {
     cout << "FAILED: `" << description << "`" << endl;
@@ -304,34 +304,34 @@ void test_remove() {
          << e.what() << endl;
   }
 }
-//
-// // Testing length after testing append and remove
-// void test_length() {
-//   try {
-//     DoublyLinkedList<int> dll;
-//     int n = dll.length();
-//     if (n != 0) {
-//       cout << "Incorrect length. Expected 0 but got : " << n << endl;
-//     }
-//     dll.append(6);
-//     dll.append(5);
-//     dll.append(4);
-//     dll.append(3);
-//     dll.append(2);
-//     n = dll.length();
-//     if (n != 5) {
-//       cout << "Incorrect length. Expected 5 but got : " << n << endl;
-//     }
-//     dll.remove(4);
-//     dll.remove(2);
-//     n = dll.length();
-//     if (n != 3) {
-//       cout << "Incorrect length. Expected 3 but got : " << n << endl;
-//     }
-//   } catch (std::exception &e) {
-//     cerr << "Error in determining length : " << e.what() << endl;
-//   }
-// }
+
+// TOOD: Test after clear
+// Testing length after testing append and remove
+void test_length() {
+  try {
+    DoublyLinkedList<int> dll;
+    int n = dll.length();
+
+    test("Empty list has length 0", dll.length(), "0");
+
+    dll.append(6);
+    dll.append(5);
+    dll.append(4);
+    dll.append(3);
+    dll.append(2);
+    test("List has non-zero length", dll.length(), "5");
+
+    dll.remove(4);
+    dll.remove(2);
+    test("List has correct length after removes", dll.length(), "3");
+
+    dll.insert(99, 0);
+    dll.insert(99, 0);
+    test("List has correct length after insertions", dll.length(), "5");
+  } catch (std::exception &e) {
+    cerr << "Error in determining length : " << e.what() << endl;
+  }
+}
 //
 // // Testing copy constructor after testing append, remove, and length
 // void test_copy_constructor() {
@@ -633,7 +633,7 @@ int main() {
   test_indexing();
   test_insert();
   test_remove();
-  // test_length();
+  test_length();
   // test_copy_constructor();
   // test_assignment();
   // test_isEmpty();
