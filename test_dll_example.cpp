@@ -20,14 +20,30 @@ using std::cout; // more specific than using namespace std -- fewer
 using std::endl;
 using std::string;
 
+//=================================================
+// stringify
+// Create a string from a string, number, or type implementing to_string
+//
+// Parameters:
+//  value: value to convert
+//=================================================
+template <typename T> string stringify(const T &value) {
+  if constexpr (std::is_arithmetic_v<T>) {
+    return std::to_string(value);
+  } else if constexpr (std::is_same_v<T, std::string>) {
+    return value;
+  } else {
+    return value.to_string();
+  }
+}
+
 template <typename T>
 void test(std::string description, T &actual, std::string expected) {
   cout << "Running: `" << description << "`" << endl;
-  if (actual.to_string() != expected) {
-
+  if (stringify(actual) != expected) {
     cout << "FAILED: `" << description << "`" << endl;
     cout << "Expected: " << expected << endl;
-    cout << "Actual: " << actual.to_string() << endl;
+    cout << "Actual: " << stringify(actual) << endl;
 
   } else {
     cout << "Successful: `" << description << "`" << endl;
@@ -39,11 +55,11 @@ void test_append() {
   try {
     DoublyLinkedList<int> dll;
     dll.append(0);
-    test("Single append of 0", dll, "0");
+    test("Append single int", dll, "0");
 
     dll.append(2);
     dll.append(-1);
-    test("Appending multiple numbers", dll, "0 2 -1");
+    test("Append multiple numbers", dll, "0 2 -1");
   } catch (std::exception &e) {
     cerr << "Error appending to list : " << e.what() << endl;
   }
@@ -51,65 +67,86 @@ void test_append() {
   try {
     DoublyLinkedList<string> dll;
     dll.append("heyo");
-    test("Single string append", dll, "heyo");
+    test("Append single string", dll, "heyo");
 
     dll.append("its");
     dll.append("me");
-    test("Appending multiple strings", dll, "heyo its me");
+    test("Append multiple strings", dll, "heyo its me");
   } catch (std::exception &e) {
     cerr << "Error appending to list : " << e.what() << endl;
   }
 }
-//
-// void test_indexing() {
-//   try {
-//     DoublyLinkedList<int> dll;
-//     dll.append(0);
-//     dll.append(2);
-//     dll.append(-1);
-//
-//     int elem = dll[0];
-//     if (elem != 0) {
-//       cout << "Incorrect indexing result at index 0. Expected 0 but got : "
-//            << elem << endl;
-//     }
-//
-//     elem = dll[1];
-//     if (elem != 2) {
-//       cout << "Incorrect indexing result at index 1. Expected 2 but got : "
-//            << elem << endl;
-//     }
-//
-//     elem = dll[2];
-//     if (elem != -1) {
-//       cout << "Incorrect indexing result at index 2. Expected -1 but got : "
-//            << elem << endl;
-//     }
-//
-//   } catch (std::exception &e) {
-//     cerr << "Error indexing in list (operator[]) : " << e.what() << endl;
-//   }
-//
-//   // Test for out-of-bounds handling -- what other methods need this kind of
-//   // test?
-//   try {
-//     DoublyLinkedList<int> dll;
-//     dll.append(0);
-//     dll.append(2);
-//     dll.append(-1);
-//
-//     dll[-1];
-//     cerr << "Expected exception not thrown in operator[] for out of bounds "
-//             "index (-1)"
-//          << endl;
-//
-//   } catch (std::exception &e) {
-//     cout << "Exception correctly thrown in operator[] for out of bounds index
-//     "
-//             "(-1) : "
-//          << e.what() << endl;
-//   }
-// }
+
+void test_indexing() {
+  try {
+    DoublyLinkedList<int> dll;
+    dll.append(0);
+    dll.append(2);
+    dll.append(-1);
+
+    test("Index at first int element", dll[0], "0");
+
+    test("Index at second int element", dll[1], "2");
+
+    test("Index at third int element", dll[2], "-1");
+
+  } catch (std::exception &e) {
+    cerr << "Error indexing in list (operator[]) : " << e.what() << endl;
+  }
+
+  try {
+    DoublyLinkedList<string> dll;
+    dll.append("Slayter");
+    dll.append("Olin");
+    dll.append("Higley");
+
+    test("Index at first string element", dll[0], "Slayter");
+
+    test("Index at second string element", dll[1], "Olin");
+
+    test("Index at third string element", dll[2], "Higley");
+
+  } catch (std::exception &e) {
+    cerr << "Error indexing in list (operator[]) : " << e.what() << endl;
+  }
+
+  // Test for out-of-bounds handling -- what other methods need this kind of
+  // test?
+  try {
+    DoublyLinkedList<int> dll;
+    dll.append(0);
+    dll.append(2);
+    dll.append(-1);
+
+    dll[-1];
+    cerr << "Expected exception not thrown in operator[] for out of bounds "
+            "index (-1)"
+         << endl;
+
+  } catch (std::exception &e) {
+    cout << "Exception correctly thrown in operator[] for out of bounds index "
+            "(-1) : "
+         << e.what() << endl;
+  }
+
+  // Out of bounds in the positive direction
+  try {
+    DoublyLinkedList<int> dll;
+    dll.append(0);
+    dll.append(2);
+    dll.append(-1);
+
+    dll[5];
+    cerr << "Expected exception not thrown in operator[] for out of bounds "
+            "index (5)"
+         << endl;
+
+  } catch (std::exception &e) {
+    cout << "Exception correctly thrown in operator[] for out of bounds index "
+            "(5) : "
+         << e.what() << endl;
+  }
+}
 //
 // void test_insert() {
 //   try {
@@ -495,7 +532,7 @@ void test_append() {
 
 int main() {
   test_append();
-  // test_indexing();
+  test_indexing();
   // test_insert();
   // test_remove();
   // test_length();

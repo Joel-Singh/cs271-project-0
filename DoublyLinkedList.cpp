@@ -19,6 +19,7 @@ using namespace std;
 template <typename T> DoublyLinkedList<T>::DoublyLinkedList() {
   head = nullptr;
   tail = nullptr;
+  stored_length = 0;
 }
 
 //=================================================
@@ -74,9 +75,46 @@ template <typename T> void DoublyLinkedList<T>::append(const T &item) {
     tail->next = n;
     tail = n;
   }
+
+  stored_length++;
 }
 
-template <typename T> T &DoublyLinkedList<T>::operator[](int index) {}
+//=================================================
+// operator[]
+// Get a list value at `index`. Traverse from the head. Or the tail if the list
+// value is closer to it.
+//
+// Parameters:
+//  index: The index to get
+//=================================================
+template <typename T> T &DoublyLinkedList<T>::operator[](int index) {
+  if (index < 0 || index >= length()) {
+    throw runtime_error("`" + std::to_string(index) +
+                        "` is invalid index for list of length " +
+                        std::to_string(length()));
+  }
+
+  assert(head != nullptr);
+
+  bool closer_to_tail = ((length() - 1) - index) < index;
+  if (closer_to_tail) {
+    Node *ptr = tail;
+    for (int i = 1; i < length() - index; i++) {
+      assert(ptr->prev != nullptr);
+      ptr = ptr->prev;
+    }
+
+    return ptr->val;
+  } else {
+    Node *ptr = head;
+    for (int i = 0; i < index; i++) {
+      assert(ptr->next != nullptr);
+      ptr = ptr->next;
+    }
+
+    return ptr->val;
+  }
+}
 
 template <typename T>
 void DoublyLinkedList<T>::insert(const T &item, int index) {}
@@ -87,7 +125,17 @@ template <typename T>
 DoublyLinkedList<T>
 DoublyLinkedList<T>::operator+(const DoublyLinkedList<T> &mylist) const {}
 
-template <typename T> int DoublyLinkedList<T>::length() const {}
+//=================================================
+// length()
+// Returns the length of the list in O(1) time by having a bookkeeping variable
+// automatically kepeing track of the length
+//
+// Return Value:
+//  An int representing the length
+//=================================================
+template <typename T> int DoublyLinkedList<T>::length() const {
+  return this->stored_length;
+}
 
 template <typename T> bool DoublyLinkedList<T>::isEmpty() const {}
 

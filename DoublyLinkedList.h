@@ -67,6 +67,7 @@ private:
 
   Node *head;
   Node *tail;
+  int stored_length;
 };
 
 #include "DoublyLinkedList.cpp"
