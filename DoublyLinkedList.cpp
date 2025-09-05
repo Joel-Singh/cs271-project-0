@@ -76,7 +76,7 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> &mylist)
   copy_from(mylist);
 }
 
-template <typename T> DoublyLinkedList<T>::~DoublyLinkedList<T>() {}
+template <typename T> DoublyLinkedList<T>::~DoublyLinkedList<T>() { clear(); }
 
 //=================================================
 // operator=
