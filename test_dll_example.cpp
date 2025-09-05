@@ -311,7 +311,6 @@ void test_remove() {
   }
 }
 
-// TOOD: Test after clear
 // Testing length after testing append and remove
 void test_length() {
   try {
@@ -333,6 +332,30 @@ void test_length() {
 
     dll.insert(99, 0);
     dll.insert(99, 0);
+    test("List has correct length after insertions", dll.length(), "5");
+  } catch (std::exception &e) {
+    cerr << "Error in determining length : " << e.what() << endl;
+  }
+
+  try {
+    DoublyLinkedList<string> dll;
+    int n = dll.length();
+
+    test("Empty list has length 0", dll.length(), "0");
+
+    dll.append("6");
+    dll.append("5");
+    dll.append("4");
+    dll.append("3");
+    dll.append("2");
+    test("List has non-zero length", dll.length(), "5");
+
+    dll.remove(4);
+    dll.remove(2);
+    test("List has correct length after removes", dll.length(), "3");
+
+    dll.insert("99", 0);
+    dll.insert("99", 0);
     test("List has correct length after insertions", dll.length(), "5");
   } catch (std::exception &e) {
     cerr << "Error in determining length : " << e.what() << endl;

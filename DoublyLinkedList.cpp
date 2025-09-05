@@ -2,7 +2,8 @@
 // Joel Singh
 // September 2026
 // DoublyLinkedList.cpp
-// The file contains the class method definitions for the List class.
+// The file contains the class method definitions for the DoublyLinkedList
+// class.
 //=================================================
 
 #include "DoublyLinkedList.h"
