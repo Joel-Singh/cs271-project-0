@@ -35,6 +35,8 @@ void DoublyLinkedList<T>::copy_from(const DoublyLinkedList<T> &original) {
 
   Node *new_node = new Node;
   new_node->val = ptr->val;
+  new_node->next = nullptr;
+  new_node->prev = nullptr;
 
   head = new_node;
 
@@ -43,6 +45,8 @@ void DoublyLinkedList<T>::copy_from(const DoublyLinkedList<T> &original) {
 
     new_node = new Node;
     new_node->val = ptr->next->val;
+    new_node->next = nullptr;
+    new_node->prev = nullptr;
 
     new_node->prev = before;
     before->next = new_node;
@@ -146,12 +150,14 @@ template <typename T> T &DoublyLinkedList<T>::operator[](int index) {
 //=================================================
 template <typename T>
 void DoublyLinkedList<T>::insert(const T &item, int index) {
-  Node *new_node = new Node;
-  new_node->val = item;
-
   if (length() == 0 || index == length()) {
     append(item);
   } else {
+    Node *new_node = new Node;
+    new_node->val = item;
+    new_node->prev = nullptr;
+    new_node->next = nullptr;
+
     Node *after = get_node_at_index(index);
     Node *before = after->prev;
 
@@ -191,7 +197,6 @@ template <typename T> void DoublyLinkedList<T>::remove(int index) {
   if (is_head) {
     head = after;
   } else {
-    assert(before != nullptr);
     before->next = after;
   }
 
@@ -199,7 +204,6 @@ template <typename T> void DoublyLinkedList<T>::remove(int index) {
   if (is_tail) {
     tail = before;
   } else {
-    assert(after != nullptr);
     after->prev = before;
   }
 
