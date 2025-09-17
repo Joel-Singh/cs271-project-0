@@ -1,10 +1,69 @@
 #include "DoublyLinkedList.h"
+#include "string"
 #include "test.cpp"
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 
-void mergesort_correctness_test();
+using namespace std;
+namespace fs = filesystem;
 
-int main() { mergesort_correctness_test(); }
+enum class SortingMethods { MergeSort };
+
+void mergesort_correctness_test();
+void sorting_efficiency_test(fs::path data_file, SortingMethods sorting_method);
+
+int main() {
+  mergesort_correctness_test();
+
+  string datafiles[] = {
+      "./data/randomizedData/10.in",     "./data/randomizedData/100.in",
+      "./data/randomizedData/1000.in",   "./data/randomizedData/10000.in",
+      "./data/randomizedData/100000.in", "./data/reversedData/10.in",
+      "./data/reversedData/100.in",      "./data/reversedData/1000.in",
+      "./data/reversedData/10000.in",    "./data/reversedData/100000.in",
+      "./data/sortedData/10.in",         "./data/sortedData/100.in",
+      "./data/sortedData/1000.in",       "./data/sortedData/10000.in",
+      "./data/sortedData/100000.in"};
+
+  SortingMethods sorting_methods[] = {SortingMethods::MergeSort};
+
+  for (SortingMethods method : sorting_methods) {
+    for (string file : datafiles) {
+      sorting_efficiency_test(file, method);
+    }
+  }
+}
+
+void sorting_efficiency_test(fs::path data_file,
+                             SortingMethods sorting_method) {
+  ifstream in(data_file); // the in flag is optional
+  if (!in.is_open()) {
+    cerr << "Failed  to open " << data_file << endl;
+    exit(0);
+  }
+
+  DoublyLinkedList<int> dll;
+  string line;
+  while (getline(in, line)) {
+    dll.append(stoi(line));
+  }
+
+  auto begin = std::chrono::high_resolution_clock::now();
+
+  string sorting_method_str;
+  if (sorting_method == SortingMethods::MergeSort) {
+    dll.mergesort();
+    sorting_method_str = "Mergesort";
+  }
+
+  auto end = std::chrono::high_resolution_clock::now();
+  auto elapsed =
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+
+  cout << "`" << data_file << "`" << " took " << elapsed.count()
+       << " nanoseconds to sort using " << sorting_method_str << endl;
+}
 
 void mergesort_correctness_test() {
   {
