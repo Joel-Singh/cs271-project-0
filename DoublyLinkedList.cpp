@@ -436,3 +436,65 @@ template <typename T> void DoublyLinkedList<T>::selectionSort() {
 //     get_node_at_index(index + 1)->val = item_to_insert;
 //   }
 // }
+//
+// template <typename U>
+// void swap_nodes(typename DoublyLinkedList<U>::Node *lhs,
+//                 typename DoublyLinkedList<U>::Node *rhs) {
+//   U temp = lhs->val;
+//   lhs->val = rhs->val;
+//   rhs->val = temp;
+// };
+//
+// //=================================================
+// // partition
+// // Helper method from page 184 of our CS271 book for quicksort
+// //=================================================
+// template <typename T>
+// void partition(const DoublyLinkedList<T> &A,
+//                typename DoublyLinkedList<T>::Node *p,
+//                typename DoublyLinkedList<T>::Node *r) {
+//   using Node = typename DoublyLinkedList<T>::Node;
+//
+//   T x = r->val;
+//   Node *i = p;
+//   for (Node *j = p; j != r; j = j->next) {
+//     if (j->val <= x) {
+//       swap_nodes(i, j);
+//
+//       i = i->next;
+//     }
+//   }
+//
+//   swap_nodes(i, r);
+//   return i;
+// }
+//
+// //=================================================
+// // quicksort
+// // Sorts the doubly linked list via quicksort
+// //=================================================
+// template <typename T> void DoublyLinkedList<T>::quicksort(Node *p, Node *r) {
+//   bool is_p_less_than_r = false;
+//   Node *ptr = r;
+//   while (ptr != nullptr) {
+//     if (ptr == p) {
+//       is_p_less_than_r = true;
+//       break;
+//     }
+//     ptr = ptr->prev;
+//   }
+//
+//   if (is_p_less_than_r) {
+//     Node *q = partition(this, p, r);
+//     quicksort(p, q->prev);
+//     quicksort(q->next, r);
+//   }
+// }
+//
+// //=================================================
+// // quicksort
+// // Sorts the doubly linked list via quicksort. This sets up the initial call.
+// //=================================================
+// template <typename T> void DoublyLinkedList<T>::quicksort() {
+//   quicksort(head, tail);
+// }

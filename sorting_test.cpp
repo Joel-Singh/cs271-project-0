@@ -56,7 +56,7 @@ void sorting_efficiency_test(fs::path data_file, SortingMethods method) {
     original_data.append(stoi(number));
   }
 
-  const int NUMBER_OF_RUNS = 1;
+  const int NUMBER_OF_RUNS = 5;
   vector<int> nanoseconds_taken = {};
   for (int i = 0; i < NUMBER_OF_RUNS; i++) {
     DoublyLinkedList<int> to_sort = original_data;

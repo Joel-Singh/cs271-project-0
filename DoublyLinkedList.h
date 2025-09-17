@@ -34,9 +34,21 @@ public:
   void mergesort();
   void selectionSort();
   // void insertionSort();
+  // void quicksort();
   template <class U>
   friend DoublyLinkedList<U> merge(const DoublyLinkedList<U> &left,
                                    const DoublyLinkedList<U> &right);
+  //
+  // template <typename U>
+  // friend DoublyLinkedList<U> partition(const DoublyLinkedList<U> &A,
+  //                                      typename DoublyLinkedList<U>::Node *p,
+  //                                      typename DoublyLinkedList<U>::Node
+  //                                      *r);
+  //
+  // template <typename U>
+  // friend void swap_nodes(typename DoublyLinkedList<U>::Node *lhs,
+  //                        typename DoublyLinkedList<U>::Node *rhs);
+  //
   // Returns a string representation of the list to make testing easier
   std::string to_string() const {
     std::stringstream s;
@@ -76,6 +88,7 @@ private:
   int stored_length;
 
   void throw_on_invalid_index(int index);
+  // void quicksort(Node *p, Node *r);
   Node *get_node_at_index(int index);
 
   void copy_from(const DoublyLinkedList<T> &original);
