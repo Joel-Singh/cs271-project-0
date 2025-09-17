@@ -10,11 +10,17 @@ namespace fs = filesystem;
 
 enum class SortingMethods { MergeSort };
 
-void mergesort_correctness_test();
+void sort_correctness_test(SortingMethods method);
 void sorting_efficiency_test(fs::path data_file, SortingMethods sorting_method);
+template <typename T>
+void sort_based_on_method(DoublyLinkedList<T> &dll, SortingMethods method);
+string method_to_string(SortingMethods method);
 
 int main() {
-  mergesort_correctness_test();
+  SortingMethods sorting_methods[] = {SortingMethods::MergeSort};
+  for (SortingMethods method : sorting_methods) {
+    sort_correctness_test(method);
+  }
 
   string datafiles[] = {
       "./data/randomizedData/10.in",     "./data/randomizedData/100.in",
@@ -25,8 +31,6 @@ int main() {
       "./data/sortedData/10.in",         "./data/sortedData/100.in",
       "./data/sortedData/1000.in",       "./data/sortedData/10000.in",
       "./data/sortedData/100000.in"};
-
-  SortingMethods sorting_methods[] = {SortingMethods::MergeSort};
 
   for (SortingMethods method : sorting_methods) {
     for (string file : datafiles) {
@@ -65,26 +69,26 @@ void sorting_efficiency_test(fs::path data_file,
        << " nanoseconds to sort using " << sorting_method_str << endl;
 }
 
-void mergesort_correctness_test() {
+void sort_correctness_test(SortingMethods method) {
   {
     DoublyLinkedList<int> dll;
-    dll.mergesort();
-    test("Mergesort: empty list stays empty", dll, "");
+    sort_based_on_method(dll, method);
+    test(method_to_string(method) + " : empty list stays empty", dll, "");
   }
 
   {
     DoublyLinkedList<int> dll;
     dll.append(1);
-    dll.mergesort();
-    test("Mergesort: single list stays same", dll, "1");
+    sort_based_on_method(dll, method);
+    test(method_to_string(method) + " : single list stays same", dll, "1");
   }
 
   {
     DoublyLinkedList<int> dll;
     dll.append(2);
     dll.append(1);
-    dll.mergesort();
-    test("Mergesort: sorting two elements", dll, "1 2");
+    sort_based_on_method(dll, method);
+    test(method_to_string(method) + " : sorting two elements", dll, "1 2");
   }
 
   {
@@ -92,8 +96,8 @@ void mergesort_correctness_test() {
     dll.append(3);
     dll.append(2);
     dll.append(1);
-    dll.mergesort();
-    test("Mergesort: sorting three elements", dll, "1 2 3");
+    sort_based_on_method(dll, method);
+    test(method_to_string(method) + " : sorting three elements", dll, "1 2 3");
   }
 
   {
@@ -105,7 +109,25 @@ void mergesort_correctness_test() {
     dll.append(382);
     dll.append(3241);
     dll.append(120);
+    sort_based_on_method(dll, method);
+    test(method_to_string(method) + " : sorting seven elements", dll,
+         "4 9 10 11 120 382 3241");
+  }
+}
+
+template <typename T>
+void sort_based_on_method(DoublyLinkedList<T> &dll, SortingMethods method) {
+  if (method == SortingMethods::MergeSort) {
     dll.mergesort();
-    test("Mergesort: sorting seven elements", dll, "4 9 10 11 120 382 3241");
+  } else {
+    throw runtime_error("Missing branch");
+  }
+}
+
+string method_to_string(SortingMethods method) {
+  if (method == SortingMethods::MergeSort) {
+    return "Mergesort";
+  } else {
+    throw runtime_error("Missing branch");
   }
 }
