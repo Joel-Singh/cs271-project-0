@@ -420,3 +420,19 @@ template <typename T> void DoublyLinkedList<T>::selectionSort() {
     ptr = ptr->next;
   }
 }
+
+// //=================================================
+// // insertionSort
+// // Sorts the doubly linked list via insertion sort
+// //=================================================
+// template <typename T> void DoublyLinkedList<T>::insertionSort() {
+//   for (int insert_index = 0; insert_index < length(); insert_index++) {
+//     T item_to_insert = (*this)[insert_index];
+//     int index = insert_index - 1;
+//     while ((index >= -1) && (*this)[index] > item_to_insert) {
+//       get_node_at_index(index + 1)->val = (*this)[index];
+//       index--;
+//     }
+//     get_node_at_index(index + 1)->val = item_to_insert;
+//   }
+// }
