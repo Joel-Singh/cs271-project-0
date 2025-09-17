@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include <vector>
 
 using namespace std;
@@ -54,7 +55,7 @@ void sorting_efficiency_test(fs::path data_file, SortingMethods method) {
     original_data.append(stoi(number));
   }
 
-  const int NUMBER_OF_RUNS = 5;
+  const int NUMBER_OF_RUNS = 20;
   vector<int> nanoseconds_taken = {};
   for (int i = 0; i < NUMBER_OF_RUNS; i++) {
     DoublyLinkedList<int> to_sort = original_data;
@@ -83,6 +84,8 @@ void sorting_efficiency_test(fs::path data_file, SortingMethods method) {
   cout << "`" << data_file << "`" << " took a median of " << median
        << " nanoseconds with " << NUMBER_OF_RUNS
        << " number of runs to sort using " << method_to_string(method) << endl;
+
+  cout << "(" << original_data.length() << "," << median << ")" << endl;
 }
 
 void sort_correctness_test(SortingMethods method) {
