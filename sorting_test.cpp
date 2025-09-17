@@ -1,9 +1,11 @@
 #include "DoublyLinkedList.h"
 #include "string"
 #include "test.cpp"
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 namespace fs = filesystem;
@@ -46,22 +48,41 @@ void sorting_efficiency_test(fs::path data_file, SortingMethods method) {
     exit(0);
   }
 
-  DoublyLinkedList<int> dll;
-  string line;
-  while (getline(in, line)) {
-    dll.append(stoi(line));
+  DoublyLinkedList<int> original_data;
+  string number;
+  while (in >> number) {
+    original_data.append(stoi(number));
   }
 
-  auto begin = std::chrono::high_resolution_clock::now();
+  const int NUMBER_OF_RUNS = 5;
+  vector<int> nanoseconds_taken = {};
+  for (int i = 0; i < NUMBER_OF_RUNS; i++) {
+    DoublyLinkedList<int> to_sort = original_data;
 
-  sort_based_on_method(dll, method);
+    auto begin = std::chrono::high_resolution_clock::now();
 
-  auto end = std::chrono::high_resolution_clock::now();
-  auto elapsed =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+    sort_based_on_method(to_sort, method);
 
-  cout << "`" << data_file << "`" << " took " << elapsed.count()
-       << " nanoseconds to sort using " << method_to_string(method) << endl;
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
+
+    nanoseconds_taken.push_back(elapsed.count());
+  }
+
+  int median;
+  int size = nanoseconds_taken.size();
+  std::sort(nanoseconds_taken.begin(), nanoseconds_taken.end());
+  if (nanoseconds_taken.size() % 2 == 1) {
+    median = nanoseconds_taken[size / 2];
+  } else {
+    median =
+        (nanoseconds_taken[size / 2] + nanoseconds_taken[(size / 2) - 1]) / 2;
+  }
+
+  cout << "`" << data_file << "`" << " took a median of " << median
+       << " nanoseconds with " << NUMBER_OF_RUNS
+       << " number of runs to sort using " << method_to_string(method) << endl;
 }
 
 void sort_correctness_test(SortingMethods method) {
