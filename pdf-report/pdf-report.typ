@@ -9,7 +9,9 @@ The correctness of each algorithm is verified with the `sort_correctness_test`. 
 == Graphs
 
 Every sorting algorithm was run against each given input data file 20 times,
-and the median time taken to sort in nanoseconds was plotted.
+and the median time taken to sort in nanoseconds was plotted. Selection sort
+was the exception because it took exceptionally long on some input files, so it
+was only run once.
 
 == Mergesort
 
@@ -42,4 +44,22 @@ As expected for mergesort, every graph is roughly the same since the order of
 the data does not matter in its time. Furthermore, the graphs show roughly
 $O(log(n))$.
 
-== 
+== Selection Sort
+
+Selection sort was exceedingly easy to implement. I ran into no issues and it
+very surprisingly worked the first try I ran it.
+
+== Runtime changes and efficiency
+#figure(
+    image("./selection-sort-randomized-data.svg", width: 50%)
+)
+
+#figure(
+    image("./selection-sort-reversed-data.svg", width: 50%)
+)
+
+#figure(
+    image("./selection-sort-sorted-data.svg", width: 50%)
+)
+
+As expected for selection sort, every graph shows roughly $O(n^2)$.

@@ -362,6 +362,10 @@ DoublyLinkedList<T> merge(const DoublyLinkedList<T> &left,
   return merged;
 }
 
+//=================================================
+// mergesort
+// Sorts the doubly linked list via mergesort
+//=================================================
 template <typename T> void DoublyLinkedList<T>::mergesort() {
   int n = length();
 
@@ -387,5 +391,32 @@ template <typename T> void DoublyLinkedList<T>::mergesort() {
     left.mergesort();
     right.mergesort();
     *this = merge(left, right);
+  }
+}
+
+//=================================================
+// selectionSort
+// Sort the douby linked list via selectionSort
+//=================================================
+template <typename T> void DoublyLinkedList<T>::selectionSort() {
+  Node *ptr = head;
+
+  while (ptr != nullptr) {
+    Node *smallest = ptr;
+    Node *finding_smallest = ptr->next;
+
+    while (finding_smallest != nullptr) {
+      if (finding_smallest->val < smallest->val) {
+        smallest = finding_smallest;
+      }
+      finding_smallest = finding_smallest->next;
+    }
+
+    // Swap
+    int temp = ptr->val;
+    ptr->val = smallest->val;
+    smallest->val = temp;
+
+    ptr = ptr->next;
   }
 }

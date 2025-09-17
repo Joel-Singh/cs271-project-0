@@ -11,7 +11,7 @@
 using namespace std;
 namespace fs = filesystem;
 
-enum class SortingMethods { MergeSort };
+enum class SortingMethods { MergeSort, SelectionSort };
 
 void sort_correctness_test(SortingMethods method);
 void sorting_efficiency_test(fs::path data_file, SortingMethods sorting_method);
@@ -20,7 +20,8 @@ void sort_based_on_method(DoublyLinkedList<T> &dll, SortingMethods method);
 string method_to_string(SortingMethods method);
 
 int main() {
-  SortingMethods sorting_methods[] = {SortingMethods::MergeSort};
+  SortingMethods sorting_methods[] = {SortingMethods::MergeSort,
+                                      SortingMethods::SelectionSort};
   for (SortingMethods method : sorting_methods) {
     sort_correctness_test(method);
   }
@@ -55,7 +56,7 @@ void sorting_efficiency_test(fs::path data_file, SortingMethods method) {
     original_data.append(stoi(number));
   }
 
-  const int NUMBER_OF_RUNS = 20;
+  const int NUMBER_OF_RUNS = 1;
   vector<int> nanoseconds_taken = {};
   for (int i = 0; i < NUMBER_OF_RUNS; i++) {
     DoublyLinkedList<int> to_sort = original_data;
@@ -138,6 +139,8 @@ template <typename T>
 void sort_based_on_method(DoublyLinkedList<T> &dll, SortingMethods method) {
   if (method == SortingMethods::MergeSort) {
     dll.mergesort();
+  } else if (method == SortingMethods::SelectionSort) {
+    dll.selectionSort();
   } else {
     throw runtime_error("Missing branch");
   }
@@ -146,6 +149,8 @@ void sort_based_on_method(DoublyLinkedList<T> &dll, SortingMethods method) {
 string method_to_string(SortingMethods method) {
   if (method == SortingMethods::MergeSort) {
     return "Mergesort";
+  } else if (method == SortingMethods::SelectionSort) {
+    return "Selection Sort";
   } else {
     throw runtime_error("Missing branch");
   }

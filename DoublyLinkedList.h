@@ -32,6 +32,7 @@ public:
   bool isEmpty() const;
   void clear();
   void mergesort();
+  void selectionSort();
   template <class U>
   friend DoublyLinkedList<U> merge(const DoublyLinkedList<U> &left,
                                    const DoublyLinkedList<U> &right);
