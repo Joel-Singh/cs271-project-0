@@ -39,8 +39,7 @@ int main() {
   }
 }
 
-void sorting_efficiency_test(fs::path data_file,
-                             SortingMethods sorting_method) {
+void sorting_efficiency_test(fs::path data_file, SortingMethods method) {
   ifstream in(data_file); // the in flag is optional
   if (!in.is_open()) {
     cerr << "Failed  to open " << data_file << endl;
@@ -55,18 +54,14 @@ void sorting_efficiency_test(fs::path data_file,
 
   auto begin = std::chrono::high_resolution_clock::now();
 
-  string sorting_method_str;
-  if (sorting_method == SortingMethods::MergeSort) {
-    dll.mergesort();
-    sorting_method_str = "Mergesort";
-  }
+  sort_based_on_method(dll, method);
 
   auto end = std::chrono::high_resolution_clock::now();
   auto elapsed =
       std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 
   cout << "`" << data_file << "`" << " took " << elapsed.count()
-       << " nanoseconds to sort using " << sorting_method_str << endl;
+       << " nanoseconds to sort using " << method_to_string(method) << endl;
 }
 
 void sort_correctness_test(SortingMethods method) {
