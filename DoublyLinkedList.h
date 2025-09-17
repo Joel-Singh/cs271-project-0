@@ -31,6 +31,10 @@ public:
   int length() const;
   bool isEmpty() const;
   void clear();
+  void mergesort();
+  template <class U>
+  friend DoublyLinkedList<U> merge(const DoublyLinkedList<U> &left,
+                                   const DoublyLinkedList<U> &right);
   // Returns a string representation of the list to make testing easier
   std::string to_string() const {
     std::stringstream s;

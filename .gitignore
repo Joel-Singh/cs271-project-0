@@ -3,3 +3,5 @@
 .ccls-cache/
 test
 *.o
+sorting_test
+test

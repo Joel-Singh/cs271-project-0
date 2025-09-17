@@ -315,3 +315,77 @@ DoublyLinkedList<T>::get_node_at_index(int index) {
     return ptr;
   }
 }
+
+//=================================================
+// merge
+// Merges two lists together, helper function for mergesort
+//
+// Parameters:
+//  left: left list
+//  right: right list
+//
+// Return Value:
+//  The merged list
+//=================================================
+template <typename T>
+DoublyLinkedList<T> merge(const DoublyLinkedList<T> &left,
+                          const DoublyLinkedList<T> &right) {
+  using Node = typename DoublyLinkedList<T>::Node;
+
+  DoublyLinkedList<T> merged;
+
+  Node *left_ptr = left.head;
+  Node *right_ptr = right.head;
+
+  while ((left_ptr != nullptr) && (right_ptr != nullptr)) {
+    if (left_ptr->val <= right_ptr->val) {
+      merged.append(left_ptr->val);
+      left_ptr = left_ptr->next;
+    } else {
+      merged.append(right_ptr->val);
+      right_ptr = right_ptr->next;
+    }
+  }
+
+  if (left_ptr != nullptr) {
+    while (left_ptr != nullptr) {
+      merged.append(left_ptr->val);
+      left_ptr = left_ptr->next;
+    }
+  } else {
+    while (right_ptr != nullptr) {
+      merged.append(right_ptr->val);
+      right_ptr = right_ptr->next;
+    }
+  }
+
+  return merged;
+}
+
+template <typename T> void DoublyLinkedList<T>::mergesort() {
+  int n = length();
+
+  if (n > 1) {
+    int mid = n / 2;
+
+    DoublyLinkedList<T> left;
+    DoublyLinkedList<T> right;
+
+    Node *ptr = head;
+    for (int i = 0; i < mid; i++) {
+      assert(ptr != nullptr);
+
+      left.append(ptr->val);
+      ptr = ptr->next;
+    }
+
+    while (ptr != nullptr) {
+      right.append(ptr->val);
+      ptr = ptr->next;
+    }
+
+    left.mergesort();
+    right.mergesort();
+    *this = merge(left, right);
+  }
+}
